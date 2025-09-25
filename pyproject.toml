@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-habit-tracker"
+version = "1.0.0"
+description = "A minimalist command-line habit tracker focused on privacy and simplicity"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Personal Habit Tracker Contributors"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Utilities",
+    "Environment :: Console",
+]
+requires-python = ">=3.6"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/imrebartis/personal-habit-tracker"
+Repository = "https://github.com/imrebartis/personal-habit-tracker"
+Issues = "https://github.com/imrebartis/personal-habit-tracker/issues"
+
+[project.scripts]
+habit-tracker = "habit_tracker:main"
+
+[tool.setuptools]
+py-modules = ["habit_tracker"]
