@@ -9,12 +9,9 @@ Philosophy: All data stays local, no external dependencies, hackable and extensi
 """
 
 # TODO - Remaining tasks from spec (.kiro/specs/personal-habit-tracker-core/tasks.md):
-# 8.1 Add error handling and robustness - Implement graceful error handling for file operations
-# THEN: 9.1 Write unit tests for core functions - Test habit creation, streak calculation, data persistence
-# THEN: 9.2 Write integration tests for workflows - Test complete application runs with mock input
+# 10. Add optional GUI interface with tkinter
 #
 # Future enhancements (philosophy-compliant for THIS project):
-# - Add a GUI (graphical interface) with tkinter (optional, standard library)
 # - Add data export capabilities (CSV, plain text) for user control
 # - Add habit categories or tags (simple, local organization)
 # - Add configurable streak reset policies (user choice, local settings)
@@ -392,6 +389,7 @@ def setup_new_habits() -> List[Dict]:
 
     attempt_count = 0
     while attempt_count < max_attempts:
+        habit_name = ""  # Initialize variable
         try:
             habit_name = input("Enter a habit to track (or type 'done' when finished): ").strip()
         except (EOFError, KeyboardInterrupt):

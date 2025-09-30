@@ -103,6 +103,64 @@ Running: 2 times total, 0 day streak
 - 🔥 **3+ days**: "Great! X day streak!"
 - 🏆 **7+ days**: "Amazing! X week(s) streak!"
 
+## Testing
+
+The project includes a comprehensive test suite to ensure reliability and maintainability.
+
+### Running Tests
+
+Run all tests:
+```bash
+python -m unittest tests.test_unit tests.test_integration -v
+```
+
+Run only unit tests:
+```bash
+python -m unittest tests.test_unit -v
+```
+
+Run only integration tests:
+```bash
+python -m unittest tests.test_integration -v
+```
+
+Run tests with discovery (alternative):
+```bash
+python -m unittest discover tests -v
+```
+
+### Test Coverage
+
+- **Unit Tests** (33 tests): Core function testing including habit creation, streak calculation, data persistence, celebration messages, and error handling
+- **Integration Tests** (19 tests): End-to-end workflow testing including first-time setup, daily check-ins, multi-session persistence, and error recovery
+
+All tests use only Python standard library (unittest, mock) and maintain the project's philosophy of simplicity and privacy.
+
+### Test Structure
+
+The test suite uses a shared base class (`tests/test_base.py`) to eliminate code duplication:
+- `BaseHabitTrackerTest`: Common setup/teardown for file-based tests
+- Maintains DRY principles while keeping tests maintainable
+- All test classes inherit from this base for consistent temporary file handling
+
+### Git Hooks & Quality Assurance
+
+The project includes simple Git hooks to maintain code quality without external dependencies:
+
+#### Pre-push Hook
+A Git pre-push hook automatically runs tests before allowing pushes:
+- Located at `.git/hooks/pre-push`
+- Prevents pushing if tests fail
+- Uses only standard Git functionality and Python
+
+#### Manual Test & Push
+For manual control, use the provided batch script:
+```bash
+test-and-push
+```
+
+This script runs tests and only pushes if all tests pass, giving you explicit control over the process.
+
 ## Development Status
 
 This project follows a spec-driven development approach with Python best practices. Current implementation status:
@@ -118,8 +176,6 @@ This project follows a spec-driven development approach with Python best practic
 - Proper project metadata and licensing
 - Code structure optimization and refactoring
 - Error handling and robustness improvements
-
-🚧 **In Progress**
 - Comprehensive test suite (unit and integration tests)
 
 📋 **Planned Enhancements** (Philosophy-Compliant)
@@ -145,7 +201,11 @@ personal-habit-tracker/
 │   ├── hooks/                      # Automated workflows
 │   │   └── philosophy-review.md    # Philosophy alignment verification
 │   └── docs/                       # Internal development docs (gitignored)
-├── habit_tracker.py               # Main application (✅ Core complete)
+├── tests/                          # Test suite
+│   ├── __init__.py                # Test package initialization
+│   ├── test_unit.py               # Unit tests for core functions (33 tests)
+│   └── test_integration.py        # Integration tests for workflows (19 tests)
+├── personal_habit_tracker.py      # Main application (✅ Core complete)
 ├── habits_data.json               # Your habit data (auto-created, gitignored)
 ├── philosophy.md                  # Project vision and philosophy (📍 North Star)
 ├── pyproject.toml                 # Modern Python packaging configuration
@@ -221,12 +281,9 @@ All development follows strict philosophy alignment:
 
 ## Next Steps
 
-To continue development, check the remaining tasks in `.kiro/specs/personal-habit-tracker-core/tasks.md`:
+To continue development, check the remaining tasks in `.kiro/specs/personal-habit-tracker-core/tasks.md`.
 
-- **Code Quality**: Optimize structure and readability (Priority)
-- **Error Handling**: Improve robustness for edge cases
-- **Testing**: Add comprehensive unit and integration tests
-- **Future Features**: GUI (tkinter), data export, habit organization (all philosophy-compliant)
+- **Future Features**: data export, habit organization (all philosophy-compliant)
 
 ## Contributing
 

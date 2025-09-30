@@ -125,8 +125,15 @@
     - Handle edge cases and malformed data
     - _Requirements: 5.4, 6.2, 6.4_
 
-- [ ] 9. Create comprehensive test suite
-  - [ ] 9.1 Write unit tests for core functions
+- [x] 9. Create comprehensive test suite
+
+
+
+
+
+  - [x] 9.1 Write unit tests for core functions
+
+
     - Test habit creation and initialization
     - Test streak calculation logic with various scenarios
     - Test data persistence round-trip operations
@@ -134,10 +141,75 @@
     - Test error handling scenarios
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.3_
 
-  - [ ] 9.2 Write integration tests for workflows
+  - [x] 9.2 Write integration tests for workflows
+
+
     - Test complete application runs with mock input
     - Test first-time setup workflow
     - Test daily check-in workflow with various completion patterns
     - Test data persistence across multiple sessions
     - Test error recovery scenarios
     - _Requirements: 1.1, 2.1, 2.5, 5.5_
+
+- [ ] 10. Add optional GUI interface with tkinter
+
+  - [ ] 10.1 Design GUI layout and user experience
+
+    - Create wireframes for main window and habit management
+    - Design intuitive interface for daily check-ins
+    - Plan progress display with visual streak indicators
+    - Ensure GUI maintains philosophy of simplicity and distraction-free design
+    - _Requirements: Philosophy compliance - simplicity, standard library only_
+
+  - [ ] 10.2 Implement core GUI components
+
+    - Create main application window with tkinter
+    - Implement habit list display with checkboxes for daily completion
+    - Add progress indicators showing streaks and total completions
+    - Create habit management interface (add/remove habits)
+    - _Requirements: 1.1, 2.1, 3.1, 4.1_
+
+  - [ ] 10.3 Integrate GUI with existing backend
+
+    - Connect GUI to existing data persistence layer
+    - Integrate streak calculation engine with GUI updates
+    - Implement real-time progress updates and celebration messages
+    - Ensure GUI and CLI versions share the same data format
+    - _Requirements: 2.1, 4.1, 4.2, 5.1_
+
+  - [ ] 10.4 Add GUI-specific features
+
+    - Implement visual streak indicators (progress bars, color coding)
+    - Add celebration animations or visual feedback for achievements
+    - Create settings panel for customization (optional)
+    - Ensure accessibility features (keyboard navigation, clear fonts)
+    - _Requirements: 3.2, 3.3, 6.1_
+
+  - [ ] 10.5 Implement GUI error handling and robustness
+
+    - Add graceful error handling for GUI initialization failures
+    - Implement proper window closing and cleanup procedures
+    - Handle GUI thread safety and event loop errors
+    - Add user-friendly error dialogs for data corruption or file access issues
+    - Implement fallback mechanisms when GUI components fail to load
+    - Handle screen resolution and display compatibility issues
+    - Add validation for GUI user inputs and form submissions
+    - _Requirements: 5.4, 6.2, 6.4_
+
+  - [ ] 10.6 Create comprehensive GUI test suite
+
+    - Write unit tests for GUI component initialization and layout
+    - Test GUI event handling (button clicks, checkbox interactions)
+    - Test GUI-backend integration with mock data
+    - Write integration tests for complete GUI workflows
+    - Test GUI accessibility features and keyboard navigation
+    - Test GUI error handling and edge cases
+    - _Requirements: 4.1, 4.2, 5.3, 6.2_
+
+  - [ ] 10.7 Create GUI launcher and packaging
+
+    - Create separate GUI entry point (gui_habit_tracker.py)
+    - Add command-line option to choose between CLI and GUI modes
+    - Update documentation with GUI usage instructions
+    - Ensure GUI remains optional and doesn't break CLI functionality
+    - _Requirements: 6.1, 6.3_
