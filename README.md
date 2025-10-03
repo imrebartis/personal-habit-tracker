@@ -18,12 +18,25 @@ This tool embodies the belief that meaningful change happens through small, cons
 
 ## Features
 
+### Core Features (Both Interfaces)
 - **Interactive Habit Creation**: Set up new habits on first run
 - **Daily Check-ins**: Mark habits as completed each day
 - **Streak Tracking**: Automatic streak calculation with smart reset logic
 - **Progress Monitoring**: View total completions and current streaks
 - **Celebration Messages**: Get motivational feedback for maintaining streaks
 - **Persistent Storage**: Habits and progress saved locally in JSON format
+
+### GUI-Specific Features
+- **Visual Progress Bars**: See your streaks represented graphically
+- **Real-time Updates**: Progress updates immediately as you complete habits
+- **Celebration Animations**: Animated popups for streak achievements
+- **Multiple Daily Completions**: Click "Complete" button multiple times per day
+- **Session Tracking**: Shows how many times you've completed each habit today
+- **Ongoing Habit Management**: Add/remove habits anytime through "Manage Habits" dialog
+- **Keyboard Navigation**: Full keyboard accessibility with shortcuts
+- **Mouse Interaction**: Click "Complete" buttons to mark habits done
+- **Tooltips**: Hover information for progress indicators
+- **Modular Architecture**: Clean separation between main window, dialogs, and reusable widgets
 
 ## Getting Started
 
@@ -52,11 +65,107 @@ personal-habit-tracker
 
 ### Usage
 
-Run the habit tracker:
+The Personal Habit Tracker offers both CLI and GUI interfaces:
 
+#### Quick Start (Interactive Launcher)
+
+**Cross-platform Python launcher:**
 ```bash
-python personal_habit_tracker.py
+python habit_tracker.py
 ```
+
+**Platform-specific launchers:**
+```bash
+# Windows
+habit-tracker.bat
+
+# Unix/Linux/macOS
+./habit-tracker.sh
+```
+
+All launchers show an interactive menu to choose between CLI and GUI interfaces.
+
+#### Direct Interface Launch
+```bash
+# CLI interface (default)
+python personal_habit_tracker.py
+
+# GUI interface
+python personal_habit_tracker.py --gui
+
+# Explicit CLI
+python personal_habit_tracker.py --cli
+
+# Alternative GUI launch
+python -m gui.gui_habit_tracker
+```
+
+#### Interface Comparison
+
+**CLI Interface** (Command Line):
+- Text-based interaction
+- Works on any system with Python
+- Minimal resource usage
+- Perfect for terminal users and automation
+- **Habit management**: Only during initial setup (first run)
+
+**GUI Interface** (Graphical):
+- Visual interface with completion buttons and progress bars
+- Mouse and keyboard interaction
+- Real-time progress updates with visual streak indicators
+- Celebration animations for achievements
+- **Multiple completions per day** (same as CLI - click "Complete" multiple times)
+- **Habit management**: Add/remove habits anytime via "Manage Habits" button
+- Requires tkinter (included with most Python installations)
+
+Both interfaces share the same data file (`habits_data.json`) and are fully compatible.
+
+#### GUI Keyboard Shortcuts
+- **Ctrl+M**: Manage habits (add/remove)
+- **Ctrl+H**: View progress history
+- **F1**: Show help dialog
+- **Tab/Shift+Tab**: Navigate between elements
+- **Space/Enter**: Complete selected habit
+- **Escape**: Close application
+
+*Note: Progress is saved automatically after each completion - no manual save needed.*
+
+#### Interface Behavioral Differences
+
+While both interfaces share the same data and core functionality, there are some workflow differences:
+
+**Habit Management:**
+- **CLI**: Habits can only be added during initial setup (first run). To add new habits later, delete `habits_data.json` and restart.
+- **GUI**: Habits can be added or removed anytime using the "Manage Habits" button (Ctrl+M).
+
+**Session Management:**
+- **CLI**: Session-based - runs once, processes all habits, then exits
+- **GUI**: Persistent - stays open for continuous interaction
+
+**Completion Workflow:**
+- **CLI**: Linear - asks about each habit once per session (yes/no prompt)
+- **GUI**: Interactive - click "Complete" button multiple times per habit
+
+**Progress Viewing:**
+- **CLI**: Shows progress summary at the end of each session
+- **GUI**: Real-time progress display + separate "View History" dialog
+
+**Data Persistence:**
+- **CLI**: Saves once at the end of the session
+- **GUI**: Auto-saves after each habit completion
+
+**Celebrations:**
+- **CLI**: Text-based celebration messages in console
+- **GUI**: Animated popup windows for achievements
+
+**Error Handling:**
+- **CLI**: Text-based error messages, exits on critical errors
+- **GUI**: Dialog boxes for errors, graceful fallback options
+
+**Data Compatibility:**
+- Both interfaces read and write the same `habits_data.json` format
+- You can switch between CLI and GUI at any time without data loss
+- All habit data (totals, streaks, dates) is preserved across interfaces
 
 #### First Time Setup
 
@@ -111,7 +220,7 @@ The project includes a comprehensive test suite to ensure reliability and mainta
 
 Run all tests:
 ```bash
-python -m unittest tests.test_unit tests.test_integration -v
+python -m unittest tests.test_unit tests.test_integration tests.test_gui -v
 ```
 
 Run only unit tests:
@@ -124,6 +233,11 @@ Run only integration tests:
 python -m unittest tests.test_integration -v
 ```
 
+Run only GUI tests:
+```bash
+python -m unittest tests.test_gui -v
+```
+
 Run tests with discovery (alternative):
 ```bash
 python -m unittest discover tests -v
@@ -133,6 +247,7 @@ python -m unittest discover tests -v
 
 - **Unit Tests** (33 tests): Core function testing including habit creation, streak calculation, data persistence, celebration messages, and error handling
 - **Integration Tests** (19 tests): End-to-end workflow testing including first-time setup, daily check-ins, multi-session persistence, and error recovery
+- **GUI Tests** (21 tests): GUI component testing including initialization, event handling, backend integration, accessibility, and error handling
 
 All tests use only Python standard library (unittest, mock) and maintain the project's philosophy of simplicity and privacy.
 
@@ -168,18 +283,25 @@ This project follows a spec-driven development approach with Python best practic
 ✅ **Core Features Complete**
 - Data persistence layer with JSON storage
 - Streak calculation engine with smart logic
-- User interaction and feedback system
+- User interaction and feedback system (CLI)
 - Progress display and reporting
 - Main application workflow
+- **GUI Interface with tkinter** (✅ **NEW**)
+  - Visual habit tracking with checkboxes
+  - Real-time progress bars and streak indicators
+  - Celebration animations for achievements
+  - Habit management dialogs
+  - Keyboard navigation and accessibility
+  - Error handling and robustness
+  - Comprehensive GUI test suite
 - Comprehensive docstrings and type hints
 - Modern Python packaging (`pyproject.toml`)
 - Proper project metadata and licensing
 - Code structure optimization and refactoring
 - Error handling and robustness improvements
-- Comprehensive test suite (unit and integration tests)
+- Comprehensive test suite (unit, integration, and GUI tests)
 
 📋 **Planned Enhancements** (Philosophy-Compliant)
-- GUI with tkinter (optional, standard library)
 - Data export capabilities (CSV, plain text for user control)
 - Habit categories and tags (simple, local organization)
 - Configurable streak reset policies (user choice, local settings)
@@ -204,8 +326,19 @@ personal-habit-tracker/
 ├── tests/                          # Test suite
 │   ├── __init__.py                # Test package initialization
 │   ├── test_unit.py               # Unit tests for core functions (33 tests)
-│   └── test_integration.py        # Integration tests for workflows (19 tests)
-├── personal_habit_tracker.py      # Main application (✅ Core complete)
+│   ├── test_integration.py        # Integration tests for workflows (19 tests)
+│   └── test_gui.py                # GUI test suite (21 tests)
+├── gui/                            # GUI application package
+│   ├── __init__.py                # GUI package initialization
+│   ├── gui_habit_tracker.py       # Main GUI entry point and error handling
+│   ├── main_window.py             # Primary application window and core functionality
+│   ├── widgets.py                 # Reusable UI components
+│   ├── dialogs.py                 # Modal dialog windows (habit management, history)
+│   └── gui_design_wireframes.md   # GUI design specifications
+├── personal_habit_tracker.py      # Main CLI application
+├── habit_tracker.py               # Interactive launcher
+├── habit-tracker.bat              # Windows launcher script
+├── habit-tracker.sh               # Unix/Linux/macOS launcher script
 ├── habits_data.json               # Your habit data (auto-created, gitignored)
 ├── philosophy.md                  # Project vision and philosophy (📍 North Star)
 ├── pyproject.toml                 # Modern Python packaging configuration

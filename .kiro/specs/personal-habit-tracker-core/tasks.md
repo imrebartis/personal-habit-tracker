@@ -151,9 +151,15 @@
     - Test error recovery scenarios
     - _Requirements: 1.1, 2.1, 2.5, 5.5_
 
-- [ ] 10. Add optional GUI interface with tkinter
+- [x] 10. Add optional GUI interface with tkinter
 
-  - [ ] 10.1 Design GUI layout and user experience
+
+
+
+
+  - [x] 10.1 Design GUI layout and user experience
+
+
 
     - Create wireframes for main window and habit management
     - Design intuitive interface for daily check-ins
@@ -161,7 +167,9 @@
     - Ensure GUI maintains philosophy of simplicity and distraction-free design
     - _Requirements: Philosophy compliance - simplicity, standard library only_
 
-  - [ ] 10.2 Implement core GUI components
+  - [x] 10.2 Implement core GUI components
+
+
 
     - Create main application window with tkinter
     - Implement habit list display with checkboxes for daily completion
@@ -169,7 +177,9 @@
     - Create habit management interface (add/remove habits)
     - _Requirements: 1.1, 2.1, 3.1, 4.1_
 
-  - [ ] 10.3 Integrate GUI with existing backend
+  - [x] 10.3 Integrate GUI with existing backend
+
+
 
     - Connect GUI to existing data persistence layer
     - Integrate streak calculation engine with GUI updates
@@ -177,7 +187,9 @@
     - Ensure GUI and CLI versions share the same data format
     - _Requirements: 2.1, 4.1, 4.2, 5.1_
 
-  - [ ] 10.4 Add GUI-specific features
+  - [x] 10.4 Add GUI-specific features
+
+
 
     - Implement visual streak indicators (progress bars, color coding)
     - Add celebration animations or visual feedback for achievements
@@ -185,7 +197,9 @@
     - Ensure accessibility features (keyboard navigation, clear fonts)
     - _Requirements: 3.2, 3.3, 6.1_
 
-  - [ ] 10.5 Implement GUI error handling and robustness
+  - [x] 10.5 Implement GUI error handling and robustness
+
+
 
     - Add graceful error handling for GUI initialization failures
     - Implement proper window closing and cleanup procedures
@@ -196,7 +210,9 @@
     - Add validation for GUI user inputs and form submissions
     - _Requirements: 5.4, 6.2, 6.4_
 
-  - [ ] 10.6 Create comprehensive GUI test suite
+  - [x] 10.6 Create comprehensive GUI test suite
+
+
 
     - Write unit tests for GUI component initialization and layout
     - Test GUI event handling (button clicks, checkbox interactions)
@@ -206,10 +222,72 @@
     - Test GUI error handling and edge cases
     - _Requirements: 4.1, 4.2, 5.3, 6.2_
 
-  - [ ] 10.7 Create GUI launcher and packaging
+  - [x] 10.7 Create GUI launcher and packaging
 
-    - Create separate GUI entry point (gui_habit_tracker.py)
+
+
+    - Create separate GUI entry point (gui/gui_habit_tracker.py)
     - Add command-line option to choose between CLI and GUI modes
     - Update documentation with GUI usage instructions
     - Ensure GUI remains optional and doesn't break CLI functionality
     - _Requirements: 6.1, 6.3_
+
+- [ ] 11. Add data export capabilities (CSV, plain text) for user control
+
+  - [ ] 11.1 Design export data formats and user interface
+
+    - Design CSV format with habit data, completion dates, and statistics
+    - Design plain text format for human-readable export
+    - Plan command-line options for export functionality
+    - Ensure export maintains philosophy of user data control
+    - _Requirements: Philosophy compliance - user control, privacy, simplicity_
+
+  - [ ] 11.2 Implement CSV export functionality
+
+    - Create function to export habit data to CSV format
+    - Include habit names, total completions, current streaks, last completion dates
+    - Add optional date range filtering for exports
+    - Implement proper CSV escaping and formatting
+    - _Requirements: 5.1, 6.1_
+
+  - [ ] 11.3 Implement plain text export functionality
+
+    - Create function to export habit data in human-readable format
+    - Include summary statistics and progress information
+    - Format output for easy reading and sharing
+    - Add optional detailed vs summary export modes
+    - _Requirements: 5.1, 6.1_
+
+  - [ ] 11.4 Add export options to CLI interface
+
+    - Add command-line arguments for export functionality (--export-csv, --export-txt)
+    - Implement export workflow in main CLI application
+    - Add help text and usage examples for export options
+    - Ensure export doesn't interfere with normal habit tracking workflow
+    - _Requirements: 6.1, 6.3_
+
+  - [ ] 11.5 Add export options to GUI interface
+
+    - Add export menu or buttons to GUI interface
+    - Implement file dialog for choosing export location
+    - Add export format selection (CSV, plain text)
+    - Provide user feedback for successful exports
+    - _Requirements: 6.1, 6.3_
+
+  - [ ] 11.6 Create comprehensive export test suite
+
+    - Write unit tests for CSV export formatting
+    - Write unit tests for plain text export formatting
+    - Test export with various habit data scenarios
+    - Test CLI export command-line options
+    - Test GUI export functionality
+    - Test error handling for export failures
+    - _Requirements: 5.3, 6.2_
+
+  - [ ] 11.7 Update documentation with export features
+
+    - Add export usage examples to README
+    - Document export file formats and options
+    - Add export to CLI help text and GUI help dialog
+    - Ensure export features align with philosophy documentation
+    - _Requirements: 6.3_

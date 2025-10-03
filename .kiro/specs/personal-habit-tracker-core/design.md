@@ -13,15 +13,21 @@ The Personal Habit Tracker follows a simple, functional architecture built aroun
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   User Input    │───▶│  Core Logic      │───▶│  Data Storage   │
-│   (CLI)         │    │  (Functions)     │    │  (JSON File)    │
+│ (CLI/GUI)       │    │  (Functions)     │    │  (JSON File)    │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                               │
                               ▼
                        ┌──────────────────┐
                        │   User Output    │
-                       │   (Console)      │
+                       │ (Console/GUI)    │
                        └──────────────────┘
 ```
+
+**Dual Interface Architecture**
+- **CLI Interface**: Command-line based interaction (personal_habit_tracker.py)
+- **GUI Interface**: Tkinter-based visual interface (gui_habit_tracker.py)
+- **Shared Backend**: Both interfaces use identical core logic and data format
+- **Launcher**: Interactive interface selection (habit_tracker.py)
 
 ### Design Principles
 
@@ -64,27 +70,63 @@ The Personal Habit Tracker follows a simple, functional architecture built aroun
 
 ### Presentation Layer
 
-**User Interaction**
-- `setup_new_habits() -> List[Dict]`: Interactive habit creation workflow
-- `process_daily_habits(habits: List[Dict]) -> List[str]`: Daily check-in workflow
-- `display_results(habits: List[Dict], performed_habits: List[str]) -> None`: Progress display
+**CLI Interface (personal_habit_tracker.py)**
+- `setup_new_habits() -> List[Dict]`: Interactive habit creation workflow (first run only)
+- `process_daily_habits(habits: List[Dict]) -> List[str]`: Linear daily check-in workflow
+- `display_results(habits: List[Dict], performed_habits: List[str]) -> None`: End-of-session progress display
+- **Session-based**: Runs once, processes all habits, saves, then exits
+- **Text-based**: Console prompts, text celebrations, command-line error messages
+- **Limitation**: No ongoing habit management - habits only created during initial setup
 
-**Feedback System**
+**GUI Interface (gui/gui_habit_tracker.py)**
+- `HabitTrackerGUI`: Main tkinter application class with persistent session
+- Visual habit completion with buttons (allows multiple completions per day)
+- Real-time progress bars and streak indicators with auto-save
+- Animated celebration popups for achievements
+- **Ongoing habit management dialogs** (add/remove habits anytime)
+- **Interactive workflow**: Multiple completions, progress viewing, habit management in one session
+- Keyboard navigation and accessibility features
+- Dialog-based error handling with graceful fallbacks
+
+**Shared Feedback System**
 - `get_streak_message(streak: int, habit_name: str) -> Optional[str]`: Celebration messages
 - Immediate feedback on completion/miss
 - Progress summary with totals and streaks
+- Both interfaces provide identical functionality and data compatibility
 
 ### Application Controller
 
-**Main Workflow**
+**CLI Main Workflow (personal_habit_tracker.py)**
 ```python
 def main():
-    # 1. Initialize and welcome user
-    # 2. Load existing habits or create new ones
-    # 3. Process daily habit completions
-    # 4. Save updated data
-    # 5. Display results and progress
+    # 1. Parse command line arguments (--gui, --cli)
+    # 2. Launch appropriate interface
+    # 3. Initialize and welcome user
+    # 4. Load existing habits or create new ones
+    # 5. Process daily habit completions
+    # 6. Save updated data
+    # 7. Display results and progress
 ```
+
+**GUI Main Workflow (gui/gui_habit_tracker.py)**
+```python
+class HabitTrackerGUI:
+    def __init__():
+        # 1. Initialize tkinter window and components
+        # 2. Load existing habits
+        # 3. Create visual interface
+
+    def on_habit_complete():
+        # 1. Update habit data (matches CLI behavior)
+        # 2. Auto-save progress
+        # 3. Refresh display
+        # 4. Show celebrations if applicable
+```
+
+**Launcher (habit_tracker.py)**
+- Interactive interface selection
+- Platform-specific launcher scripts
+- Graceful fallback from GUI to CLI
 
 ## Data Models
 
@@ -100,10 +142,19 @@ class Habit:
 
 ### Application State
 
-The application maintains no persistent state between runs. All state is:
+**CLI Application State**
+The CLI maintains no persistent state between runs. All state is:
 - Loaded from `habits_data.json` at startup
 - Modified during execution
 - Saved back to `habits_data.json` at completion
+
+**GUI Application State**
+The GUI maintains minimal runtime state for user interface:
+- Habit data loaded from `habits_data.json` at startup
+- Session completion tracking (`today_completions`) for display
+- Button references (`habit_buttons`) for keyboard navigation
+- Auto-save after each habit completion
+- Shared data format ensures CLI-GUI compatibility
 
 ### Date Handling
 
@@ -147,19 +198,41 @@ The application maintains no persistent state between runs. All state is:
 
 ### Integration Testing
 
-**Workflow Testing**
+**CLI Workflow Testing**
 - Complete application runs with various input patterns
 - Data persistence across multiple sessions
 - First-time setup workflow
 - Progress display accuracy
 
+**GUI Integration Testing**
+- GUI-backend integration with shared data format
+- Interface switching (CLI ↔ GUI) with data compatibility
+- Error handling and graceful fallbacks
+- Cross-platform GUI functionality
+
+**GUI-Specific Testing**
+- Component initialization and layout
+- Event handling (button clicks, keyboard navigation)
+- Visual updates and real-time progress display
+- Dialog functionality (habit management, progress history)
+- Accessibility features and keyboard shortcuts
+- Celebration animations and user feedback
+
 ### Manual Testing
 
-**User Experience Testing**
+**CLI User Experience Testing**
 - Clarity of prompts and messages
 - Appropriateness of celebration messages
 - Progress display readability
 - Error message helpfulness
+
+**GUI User Experience Testing**
+- Visual design and layout clarity
+- Button responsiveness and feedback
+- Progress bar accuracy and visual appeal
+- Celebration animation timing and appropriateness
+- Dialog usability and workflow
+- Keyboard navigation effectiveness
 
 ## Performance Considerations
 
@@ -190,32 +263,56 @@ The application maintains no persistent state between runs. All state is:
 - **File Path Safety**: Fixed file name prevents path traversal
 - **JSON Safety**: Standard library JSON parser prevents injection
 
+## Current Implementation
+
+### Implemented Features
+
+**Dual Interface System**
+- ✅ CLI interface with command-line interaction
+- ✅ GUI interface with tkinter (visual habit tracking)
+- ✅ Shared backend ensuring perfect compatibility
+- ✅ Interactive launcher for interface selection
+- ✅ Platform-specific launcher scripts
+
+**GUI Features**
+- ✅ Visual habit completion with buttons
+- ✅ Multiple completions per day (matches CLI behavior)
+- ✅ Real-time progress bars and streak indicators
+- ✅ Celebration animations for achievements
+- ✅ Habit management dialogs (add/remove habits)
+- ✅ Progress history visualization
+- ✅ Keyboard navigation and accessibility
+- ✅ Auto-save functionality
+- ✅ Error handling and robustness
+- ✅ Comprehensive test suite
+
 ## Extension Points
 
-### Future Enhancements
+### Future Enhancements (Philosophy-Compliant)
 
 **Data Model Extensions**
-- Add habit categories or tags
+- Add habit categories or tags (simple, local organization)
 - Store completion times or notes
 - Track habit difficulty or importance
 
 **Streak Logic Variations**
-- Configurable streak reset policies
+- Configurable streak reset policies (user choice, local settings)
 - Weekly or custom period streaks
 - Streak recovery mechanisms
-
-**User Interface Options**
-- GUI implementation with tkinter
-- Web interface for remote access
-- Mobile app integration
 
 **Analytics and Reporting**
 - Historical trend analysis
 - Completion rate statistics
-- Export capabilities for external analysis
+- Export capabilities (CSV, plain text for user control)
 
 **Integration Possibilities**
-- Calendar integration
-- Reminder systems
-- Health app connectivity
-- Social sharing (optional)
+- Calendar integration (local only)
+- Simple reminder systems (no notifications)
+- Health app connectivity (user-controlled)
+
+### Rejected Features (Philosophy Violations)
+- Web interface or cloud storage (violates privacy)
+- Social sharing or social features (violates privacy)
+- Mobile apps with push notifications (violates simplicity)
+- Data analytics or user tracking (violates privacy)
+- Monetization or subscription models (violates accessibility)

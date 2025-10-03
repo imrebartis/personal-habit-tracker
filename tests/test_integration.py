@@ -268,7 +268,7 @@ class TestCompleteApplicationRuns(BaseHabitTrackerTest):
         ]
 
         # Run main application
-        pht.main()
+        pht.launch_cli()
 
         # Verify habits were created and saved
         habits = pht.load_habits()
@@ -309,7 +309,7 @@ class TestCompleteApplicationRuns(BaseHabitTrackerTest):
         mock_input.side_effect = ['yes', 'yes']  # Complete both habits
 
         # Run main application
-        pht.main()
+        pht.launch_cli()
 
         # Verify habits were updated correctly
         habits = pht.load_habits()
@@ -337,7 +337,7 @@ class TestCompleteApplicationRuns(BaseHabitTrackerTest):
         mock_input.side_effect = ['yes']
 
         # Run main application
-        pht.main()
+        pht.launch_cli()
 
         # Verify celebration message appears in output
         output = mock_stdout.getvalue()
@@ -349,7 +349,7 @@ class TestCompleteApplicationRuns(BaseHabitTrackerTest):
     def test_keyboard_interrupt_handling(self, mock_exit, mock_input):
         """Test that keyboard interrupt is handled gracefully."""
         with patch('builtins.print'):  # Suppress print output
-            pht.main()
+            pht.launch_cli()
 
         # Should call sys.exit (either 0 for KeyboardInterrupt or 1 for other errors)
         mock_exit.assert_called()
@@ -370,7 +370,7 @@ class TestErrorRecoveryScenarios(BaseHabitTrackerTest):
 
         with patch('builtins.print') as mock_print:
             # Should not crash, should start fresh setup
-            pht.main()
+            pht.launch_cli()
 
         # Verify new habits were created despite corruption
         habits = pht.load_habits()

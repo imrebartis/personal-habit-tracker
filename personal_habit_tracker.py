@@ -9,10 +9,9 @@ Philosophy: All data stays local, no external dependencies, hackable and extensi
 """
 
 # TODO - Remaining tasks from spec (.kiro/specs/personal-habit-tracker-core/tasks.md):
-# 10. Add optional GUI interface with tkinter
+# 11. Add data export capabilities (CSV, plain text) for user control
 #
 # Future enhancements (philosophy-compliant for THIS project):
-# - Add data export capabilities (CSV, plain text) for user control
 # - Add habit categories or tags (simple, local organization)
 # - Add configurable streak reset policies (user choice, local settings)
 # - Add habit completion history view (show past week/month progress)
@@ -30,6 +29,7 @@ Philosophy: All data stays local, no external dependencies, hackable and extensi
 import datetime
 import json
 import sys
+import argparse
 from pathlib import Path
 from typing import List, Dict, Optional
 
@@ -385,6 +385,7 @@ def setup_new_habits() -> List[Dict]:
     """
     habits = []
     print("No existing habits found. Let's create some!")
+    print("Note: In CLI mode, habits can only be added during this initial setup.")
     max_attempts = 100  # Prevent infinite loops in automated testing
 
     attempt_count = 0
@@ -715,14 +716,76 @@ def initialize_habits() -> List[Dict]:
 
 def main():
     """
-    Main application entry point.
+    Main application entry point with CLI/GUI mode selection.
 
     Orchestrates the complete habit tracking workflow:
-    1. Welcome user and initialize habits
-    2. Process daily habit completions
-    3. Save updated progress
-    4. Display results and progress summary
+    1. Parse command line arguments
+    2. Launch appropriate interface (CLI or GUI)
+    3. Handle the complete user journey
     """
+    parser = argparse.ArgumentParser(
+        description="Personal Habit Tracker - A minimalist habit tracking application",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python personal_habit_tracker.py          # Run CLI version (default)
+  python personal_habit_tracker.py --gui    # Run GUI version
+  python personal_habit_tracker.py --cli    # Explicitly run CLI version
+
+Philosophy:
+  This tool prioritizes privacy, simplicity, and user control.
+  All data stays local on your machine. No accounts, no subscriptions.
+
+Note:
+  CLI allows habit creation only during first run. To add new habits,
+  use GUI mode (--gui) or delete habits_data.json and restart CLI.
+        """
+    )
+
+    parser.add_argument(
+        '--gui',
+        action='store_true',
+        help='Launch GUI interface (requires tkinter)'
+    )
+
+    parser.add_argument(
+        '--cli',
+        action='store_true',
+        help='Launch CLI interface (default)'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='Personal Habit Tracker 1.0.0'
+    )
+
+    args = parser.parse_args()
+
+    # Determine which interface to use
+    if args.gui:
+        launch_gui()
+    else:
+        # Default to CLI (whether --cli is specified or not)
+        launch_cli()
+
+def launch_gui():
+    """Launch the GUI interface."""
+    try:
+        from gui.gui_habit_tracker import main as gui_main
+        gui_main()
+    except ImportError:
+        print("❌ Error: GUI interface not available.")
+        print("Make sure gui_habit_tracker.py is in the same directory.")
+        print("Falling back to CLI interface...")
+        launch_cli()
+    except Exception as e:
+        print(f"❌ Error launching GUI: {e}")
+        print("Falling back to CLI interface...")
+        launch_cli()
+
+def launch_cli():
+    """Launch the CLI interface."""
     try:
         print("📝 Welcome to your Personal Habit Tracker!")
 
